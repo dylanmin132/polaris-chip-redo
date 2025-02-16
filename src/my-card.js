@@ -16,13 +16,20 @@ export class MyCard extends LitElement {
     super();
     this.title = "Abdul Carter";
     this.image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROiwB6j4B_koRartk57tx2giV1T-wJIadKXg&s";
-    this.link = "";
+    this.fancy = false;
+    ;
   }
 
   static get styles() {
     return css`
       :host {
         display: block;
+      }
+      :host([fancy]){
+        display: block;
+        background-color: pink;
+        border: 2px solid fuchsia;
+        box-shadow: 10px 5px 5px red;
       }
       .cardBorder{
         width: 300px;
@@ -51,7 +58,35 @@ export class MyCard extends LitElement {
       .button{
         text-align: center;
       }
+
+      details summary{
+        text-align: left;
+        font-size: 20px;
+        padding: 8px 0;
+      }
+
+      details[open] summary {
+        font-weight: bold;
+      }
+
+      details div{
+        border: 2px solid black;
+        text-align: left;
+        padding: 8px;
+        height: 70px;
+        overflow: auto;
+      }
     `;
+  }
+
+  openChanged(e) {
+    console.log(e);
+    if (e.target.getAttribute('open') != null) {
+      this.fancy = true;
+    }
+    else {
+      this.fancy = false;
+    }
   }
 
   render() {
@@ -60,17 +95,22 @@ export class MyCard extends LitElement {
       <div class = "cardBorder">
         <h1 class = "playerName"><b>${this.title}</b></h1>
           <img class = "playerPhoto" src = "${this.image}" alt=${this.title} />
-      <p>Abdul Carter is a starting defensive end for the Pennsylvania State university. He is currently a junior and is planning on entering the 2024 NFL draft. He is expected to go top 10 overall.</p>  
-      
-      <a href = ${this.link} target = "_blank">
-        <button class = "button"><em>Details</em></button>
-      </a>
-    </div>
-  </div>`;
+            <details ?open="${this.fancy}" @toggle="${this.openChanged}">
+            <summary>Description</summary>
+              <div>
+                <slot></slot>
+                <a href = ${this.link} target = "_blank">
+                  <button class = "button"><em>Details</em></button>
+                </a>
+              </div>
+            </details>
+        </div>
+      </div>`;
 }
 
   static get properties() {
     return {
+      fancy: {type: Boolean, Reflect: true},
       title: { type: String },
       image: { type: String },
       link:  {type: String },
