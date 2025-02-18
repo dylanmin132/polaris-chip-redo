@@ -1,10 +1,7 @@
 import { LitElement, html, css } from 'lit';
+import "@haxtheweb/meme-maker/meme-maker.js"
 
-/**
- * Now it's your turn. Here's what we need to try and do:
- * 1. Get you HTML from your card working in here 
- * 2. Get your CSS rescoped as needed to work here
- */
+
 
 export class MyCard extends LitElement {
 
@@ -94,10 +91,16 @@ export class MyCard extends LitElement {
     <div id = "cardlist">
       <div class = "cardBorder">
         <h1 class = "playerName"><b>${this.title}</b></h1>
-          <img class = "playerPhoto" src = "${this.image}" alt=${this.title} />
+        <meme-maker
+                image-url = "${this.image}"
+                  bottom-text = "The GOATS"
+                top-text ="These guys are">
+            </meme-maker>
+        
             <details ?open="${this.fancy}" @toggle="${this.openChanged}">
             <summary>Description</summary>
-              <div>
+
+            <div>
                 <slot></slot>
                 <a href = ${this.link} target = "_blank">
                   <button class = "button"><em>Details</em></button>
